@@ -1,5 +1,6 @@
 import React from 'react';
 import { WrappedPanelStudyBrowser } from './Panels';
+import ChatPanel from './Panels/ChatPanel';
 import i18n from 'i18next';
 
 // TODO:
@@ -22,6 +23,13 @@ function getPanelModule({ commandsManager, extensionManager, servicesManager }) 
           servicesManager={servicesManager}
         />
       ),
+    },
+    {
+      name: 'chatPanel',
+      iconName: 'tab-chat',
+      iconLabel: 'AI Assistant',
+      label: i18n.t('ChatPanel:AI Assistant'),
+      component: () => <ChatPanel />,
     },
   ];
 }

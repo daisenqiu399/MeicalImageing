@@ -239,7 +239,10 @@ function modeFactory() {
             props: {
               leftPanels: [tracked.thumbnailList],
               leftPanelResizable: true,
-              rightPanels: [cornerstone.panel, tracked.measurements, testExtension.measurements],
+              rightPanels: [
+                '@ohif/extension-default.panelModule.chatPanel',
+              ],
+              rightPanelClosed: false,
               rightPanelResizable: true,
               viewports: [
                 {

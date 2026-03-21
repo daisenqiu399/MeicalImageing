@@ -37,7 +37,9 @@
     "build:package-all-1": "lerna run build:package-1 --stream --concurrency 4",
     "dev:fast": "cd platform/app && yarn run dev:fast",
     "show:config": "echo Config is $APP_CONFIG on $PUBLIC_URL",
-    "dev": "lerna run dev:viewer --stream",
+    "dev": "concurrently \"node server/ai-proxy.js\" \"lerna run dev:viewer --stream\"",
+    "dev:with-ai": "concurrently \"node server/ai-proxy.js\" \"lerna run dev:viewer --stream\"",
+    "ai:proxy": "node server/ai-proxy.js",
     "dev:no:cache": "lerna run dev:no:cache --stream",
     "dev:project": ".scripts/dev.sh",
     "dev:orthanc": "lerna run dev:orthanc --stream",
@@ -79,7 +81,12 @@
     "link-list": "npm ls --depth=0 --link=true"
   },
   "dependencies": {
-    "execa": "8.0.1"
+    "concurrently": "^9.2.1",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "execa": "8.0.1",
+    "express": "^5.2.1",
+    "node-fetch": "^3.3.2"
   },
   "optionalDependencies": {
     "@percy/cypress": "3.1.6",

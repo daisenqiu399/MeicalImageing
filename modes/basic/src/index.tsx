@@ -286,8 +286,10 @@ export const basicLayout = {
   props: {
     leftPanels: [ohif.thumbnailList],
     leftPanelResizable: true,
-    rightPanels: [cornerstone.segmentation, cornerstone.measurements],
-    rightPanelClosed: true,
+    rightPanels: [
+      '@ohif/extension-default.panelModule.chatPanel',
+    ],
+    rightPanelClosed: false,
     rightPanelResizable: true,
     viewports: [
       {

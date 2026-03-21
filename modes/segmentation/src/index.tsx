@@ -205,8 +205,7 @@ function modeFactory({ modeConfiguration }) {
               leftPanels: [ohif.thumbnailList],
               leftPanelResizable: true,
               rightPanels: [
-                cornerstone.labelMapSegmentationPanel,
-                cornerstone.contourSegmentationPanel,
+                '@ohif/extension-default.panelModule.chatPanel',
               ],
               rightPanelResizable: true,
               // leftPanelClosed: true,

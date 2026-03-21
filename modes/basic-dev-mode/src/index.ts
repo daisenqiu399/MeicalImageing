@@ -136,7 +136,10 @@ function modeFactory({ modeConfiguration }) {
               // TODO: Should be optional, or required to pass empty array for slots?
               leftPanels: [ohif.thumbnailList],
               leftPanelResizable: true,
-              rightPanels: [ohif.measurements],
+              rightPanels: [
+                '@ohif/extension-default.panelModule.chatPanel',
+              ],
+              rightPanelClosed: false,
               rightPanelResizable: true,
               viewports: [
                 {
