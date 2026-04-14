@@ -1,5 +1,6 @@
 const http = require('http');
 const {
+  buildReportExportOptions,
   buildMessages,
   buildModelRequestBody,
   coerceModelResult,
@@ -182,6 +183,10 @@ describe('ai-proxy helpers', () => {
       },
     ],
   };
+
+  beforeEach(() => {
+    delete process.env.AI_TIMEOUT_MS;
+  });
 
   afterEach(() => {
     delete process.env.AI_PROVIDER;
@@ -436,6 +441,56 @@ describe('ai-proxy helpers', () => {
     expect(json.error.message).toContain('timed out after 45000ms');
   });
 
+  it('keeps documentMeta values for local PDF export while whitelisting fields', () => {
+    const options = buildReportExportOptions(
+      {
+        report: {
+          title: '胸部 CT AI 草稿',
+          findings: '右肺下叶见小结节。',
+        },
+        summary: '胸部 CT 平扫。',
+        captures: payload.captures,
+        model: 'test-model',
+        requestId: 'request-export-1',
+        studyDescription: 'Should be replaced',
+        documentMeta: {
+          institutionName: '示例医院',
+          patientName: 'Alice Example',
+          patientSex: 'F',
+          patientAge: '034Y',
+          patientId: 'P-001',
+          accessionNumber: 'ACC-001',
+          studyDate: '2026-04-14',
+          studyDescription: 'CT Chest',
+          modality: 'CT',
+          seriesDescription: 'Chest CT',
+          PatientName: 'Should not survive',
+        },
+        ignored: {
+          PatientName: 'Nope',
+        },
+      },
+      'fallback-request'
+    );
+
+    expect(options.requestId).toBe('request-export-1');
+    expect(options.documentMeta).toEqual({
+      institutionName: '示例医院',
+      patientName: 'Alice Example',
+      patientSex: 'F',
+      patientAge: '034Y',
+      patientId: 'P-001',
+      accessionNumber: 'ACC-001',
+      studyDate: '2026-04-14',
+      studyDescription: 'CT Chest',
+      modality: 'CT',
+      seriesDescription: 'Chest CT',
+    });
+    expect(options.studyDescription).toBe('CT Chest');
+    expect(options.documentMeta.PatientName).toBeUndefined();
+    expect(options.ignored).toBeUndefined();
+  });
+
   it('serves /api/ai/report-export as a pdf download', async () => {
     const server = createServer({
       redactPhi: false,
@@ -454,11 +509,55 @@ describe('ai-proxy helpers', () => {
       model: 'test-model',
       requestId: 'request-123',
       studyDescription: 'CT Chest',
+      documentMeta: {
+        institutionName: '示例医院',
+        patientName: 'Alice Example',
+        patientSex: 'F',
+        patientAge: '034Y',
+        patientId: 'P-001',
+        accessionNumber: 'ACC-001',
+        studyDate: '2026-04-14',
+        studyDescription: 'CT Chest',
+        modality: 'CT',
+        seriesDescription: 'Chest CT',
+      },
     });
 
     expect(response.statusCode).toBe(200);
     expect(response.headers['content-type']).toContain('application/pdf');
     expect(response.headers['content-disposition']).toContain('study-ai-report-');
+    expect(response.body.length).toBeGreaterThan(1000);
+  }, 30000);
+
+  it('serves /api/ai/report-export with documentMeta even when PHI redaction is enabled', async () => {
+    const server = createServer();
+    const response = await sendRequest(server, '/api/ai/report-export', {
+      report: {
+        title: '胸部 CT AI 草稿',
+        examSummary: '胸部 CT 平扫。',
+        findings: '右肺下叶见小结节。',
+        impression: '考虑炎性结节。',
+        recommendations: '建议结合随访。',
+        manualReview: '需结合原始影像人工确认。',
+      },
+      summary: '胸部 CT 平扫。',
+      captures: payload.captures,
+      documentMeta: {
+        institutionName: '示例医院',
+        patientName: 'Alice Example',
+        patientSex: 'F',
+        patientAge: '034Y',
+        patientId: 'P-001',
+        accessionNumber: 'ACC-001',
+        studyDate: '2026-04-14',
+        studyDescription: 'CT Chest',
+        modality: 'CT',
+        seriesDescription: 'Chest CT',
+      },
+    });
+
+    expect(response.statusCode).toBe(200);
+    expect(response.headers['content-type']).toContain('application/pdf');
     expect(response.body.length).toBeGreaterThan(1000);
   }, 30000);
 });

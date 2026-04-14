@@ -4,6 +4,7 @@ import {
   normalizeStructuredReport,
 } from './reportUtils';
 import { AIAssistantCapture } from './captureViewport';
+import { AIAssistantExportDocumentMeta } from './buildExportDocumentMeta';
 
 const DEFAULT_EXPORT_ENDPOINT = '/api/ai/report-export';
 
@@ -15,6 +16,7 @@ type ExportReportPdfOptions = {
   model?: string;
   requestId?: string;
   studyDescription?: string;
+  documentMeta?: Partial<AIAssistantExportDocumentMeta>;
 };
 
 function formatTimestampForFile(date = new Date()) {
@@ -84,6 +86,7 @@ export default async function exportReportPdf(options: ExportReportPdfOptions) {
       model: options.model,
       requestId: options.requestId,
       studyDescription: options.studyDescription,
+      documentMeta: options.documentMeta || {},
     }),
   });
 

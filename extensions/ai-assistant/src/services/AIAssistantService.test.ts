@@ -1,4 +1,6 @@
 import AIAssistantService, { EVENTS } from './AIAssistantService';
+import buildExportDocumentMeta from '../utils/buildExportDocumentMeta';
+import exportReportPdf from '../utils/exportReportPdf';
 
 jest.mock('../utils/buildReportContext', () => ({
   __esModule: true,
@@ -21,6 +23,22 @@ jest.mock('../utils/captureViewport', () => ({
 jest.mock('../utils/exportReportPdf', () => ({
   __esModule: true,
   default: jest.fn(),
+}));
+
+jest.mock('../utils/buildExportDocumentMeta', () => ({
+  __esModule: true,
+  default: jest.fn(() => ({
+    institutionName: '示例医院',
+    patientName: 'Alice Example',
+    patientSex: 'F',
+    patientAge: '034Y',
+    patientId: 'P-001',
+    accessionNumber: 'ACC-001',
+    studyDate: '2026-04-14',
+    studyDescription: 'CT Chest',
+    modality: 'CT',
+    seriesDescription: 'Chest CT',
+  })),
 }));
 
 const nativeFetch = global.fetch;
@@ -139,6 +157,10 @@ function createService() {
   };
 
   return service;
+}
+
+function asMock(fn) {
+  return fn;
 }
 
 describe('AIAssistantService streaming chat', () => {
@@ -267,5 +289,50 @@ describe('AIAssistantService streaming chat', () => {
     expect(state.chatStatus).toBe('error');
     expect(state.messages).toEqual([]);
     expect(state.result?.assistantMessage || '').toBe('');
+  });
+
+  it('passes document meta to the local PDF export helper', async () => {
+    const service = createService();
+
+    service['state'] = {
+      ...service.getState(),
+      result: {
+        requestId: 'request-export-1',
+        model: 'test-model',
+        summary: '胸部 CT 平扫。',
+        assistantMessage: '请人工复核。',
+        draftMarkdown: '# 胸部 CT AI 草稿',
+        report: {
+          title: '胸部 CT AI 草稿',
+          examSummary: '胸部 CT 平扫。',
+          findings: '右肺下叶见小结节。',
+          impression: '考虑炎性结节。',
+          recommendations: '建议结合随访。',
+          manualReview: '需结合原始影像人工确认。',
+        },
+        warnings: [],
+      },
+      exportStatus: 'idle',
+      exportError: null,
+    };
+
+    asMock(exportReportPdf).mockResolvedValue('study-ai-report-20260414-1200.pdf');
+
+    const filename = await service.exportPdf();
+
+    expect(filename).toBe('study-ai-report-20260414-1200.pdf');
+    expect(buildExportDocumentMeta).toHaveBeenCalledWith(service.servicesManager);
+    expect(exportReportPdf).toHaveBeenCalledWith(
+      expect.objectContaining({
+        endpoint: '/api/ai/report-export',
+        studyDescription: 'CT Chest',
+        documentMeta: expect.objectContaining({
+          institutionName: '示例医院',
+          patientName: 'Alice Example',
+          accessionNumber: 'ACC-001',
+        }),
+      })
+    );
+    expect(service.getState().exportStatus).toBe('success');
   });
 });

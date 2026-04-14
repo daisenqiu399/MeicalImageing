@@ -1,5 +1,6 @@
 import { PubSubService } from '@ohif/core';
 import buildReportContext from '../utils/buildReportContext';
+import buildExportDocumentMeta from '../utils/buildExportDocumentMeta';
 import captureViewport, { AIAssistantCapture } from '../utils/captureViewport';
 import exportReportPdf from '../utils/exportReportPdf';
 import {
@@ -414,6 +415,7 @@ class AIAssistantService extends PubSubService {
 
     try {
       const context = this.buildReportContext() as ExportContext;
+      const documentMeta = buildExportDocumentMeta(this.servicesManager);
       const filename = await exportReportPdf({
         endpoint: this.configuration.exportEndpoint,
         report: this.state.result.report,
@@ -421,7 +423,8 @@ class AIAssistantService extends PubSubService {
         captures: this.state.captures,
         model: this.state.result.model,
         requestId: this.state.result.requestId,
-        studyDescription: context.studyContext?.StudyDescription,
+        studyDescription: documentMeta.studyDescription || context.studyContext?.StudyDescription,
+        documentMeta,
       });
 
       this._setState({

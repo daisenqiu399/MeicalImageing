@@ -289,6 +289,21 @@ function normalizeReportObject(report = {}) {
   };
 }
 
+function normalizeReportExportDocumentMeta(documentMeta = {}) {
+  return {
+    institutionName: toText(documentMeta.institutionName),
+    patientName: toText(documentMeta.patientName),
+    patientSex: toText(documentMeta.patientSex),
+    patientAge: toText(documentMeta.patientAge),
+    patientId: toText(documentMeta.patientId),
+    accessionNumber: toText(documentMeta.accessionNumber),
+    studyDate: toText(documentMeta.studyDate),
+    studyDescription: toText(documentMeta.studyDescription),
+    modality: toText(documentMeta.modality),
+    seriesDescription: toText(documentMeta.seriesDescription),
+  };
+}
+
 function buildDraftMarkdown(reportInput = {}) {
   const report = normalizeReportObject(reportInput);
 
@@ -1020,6 +1035,30 @@ function buildDefaultDraftMessages() {
   ];
 }
 
+function buildReportExportOptions(body, fallbackRequestId) {
+  const payload = body && typeof body === 'object' ? body : {};
+
+  validateCaptures(payload.captures, { required: false });
+
+  const report = normalizeReportObject(payload.report || {});
+  const summary = buildSummary(report, payload.summary);
+  const documentMeta = normalizeReportExportDocumentMeta(payload.documentMeta || {});
+  const studyDescription = documentMeta.studyDescription || toText(payload.studyDescription);
+
+  return {
+    report,
+    summary,
+    captures: Array.isArray(payload.captures) ? payload.captures.slice(0, MAX_CAPTURE_COUNT) : [],
+    model: toText(payload.model),
+    requestId: toText(payload.requestId, fallbackRequestId),
+    studyDescription,
+    documentMeta: {
+      ...documentMeta,
+      studyDescription,
+    },
+  };
+}
+
 async function handleAiChat(req, res, config, limiter) {
   const requestId = ensureAiRequestAllowed(req, res, config, limiter);
   if (!requestId) {
@@ -1153,24 +1192,10 @@ async function handleReportDraft(req, res, config, limiter) {
   });
 }
 
-async function handleReportExport(req, res, config) {
+async function handleReportExport(req, res) {
   const requestId = crypto.randomUUID();
   const body = await readJsonBody(req);
-  const rawPayload = config.redactPhi ? redactPhiPayload(body) : body;
-  const payload = rawPayload && typeof rawPayload === 'object' ? rawPayload : {};
-
-  validateCaptures(payload.captures, { required: false });
-
-  const report = normalizeReportObject(payload.report || {});
-  const summary = buildSummary(report, payload.summary);
-  const pdfBuffer = await renderReportPdfBuffer({
-    report,
-    summary,
-    captures: Array.isArray(payload.captures) ? payload.captures.slice(0, MAX_CAPTURE_COUNT) : [],
-    model: toText(payload.model),
-    requestId: toText(payload.requestId, requestId),
-    studyDescription: toText(payload.studyDescription),
-  });
+  const pdfBuffer = await renderReportPdfBuffer(buildReportExportOptions(body, requestId));
   const filename = buildPdfFilename();
 
   sendBinary(res, 200, pdfBuffer, {
@@ -1306,9 +1331,12 @@ module.exports = {
   coerceModelResult,
   createConfig,
   createServer,
+  buildReportExportOptions,
   handleAiChat,
   handleReportDraft,
+  handleReportExport,
   normalizeReportObject,
+  normalizeReportExportDocumentMeta,
   redactPhiPayload,
   shouldSendTemperature,
   stripCodeFences,
