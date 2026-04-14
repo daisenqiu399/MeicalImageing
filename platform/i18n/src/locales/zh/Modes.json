@@ -1,5 +1,10 @@
 {
+  "Basic Dev Viewer": "基础开发查看器",
+  "Basic Test Mode": "基础测试模式",
   "Basic Viewer": "基础查看器",
   "Total Metabolic Tumor Volume": "总代谢肿瘤体积",
-  "Download High Quality Image": "A"
+  "Download High Quality Image": "下载高清图像",
+  "Microscopy": "显微镜",
+  "Segmentation": "分割",
+  "US Pleura B-line Annotations": "US胸膜 B 线标注"
 }

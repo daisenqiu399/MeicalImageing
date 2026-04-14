@@ -12,5 +12,20 @@
   "Export": "导出",
   "Create Report": "新建报告",
   "Do you want to add this measurement to the existing report?": "将测量添加到报告中？",
-  "Track measurements for this series?": "要对个序列进行跟踪吗？"
+  "Track measurements for this series?": "要跟踪此序列的测量数据吗？",
+  "No, do not ask again": "不，不再询问",
+  "Rename": "重命名",
+  "Duplicate": "复制",
+  "Change Color": "更改颜色",
+  "Lock": "锁定",
+  "Unlock": "解锁",
+  "Hide": "隐藏",
+  "Show": "显示",
+  "Create SR": "创建 SR",
+  "empty": "（空）",
+  "You have existing tracked measurements. What would you like to do with your existing tracked measurements?": "已有跟踪的测量数据。您希望如何处理这些已跟踪的测量数据？",
+  "Measurements cannot span across multiple studies. Do you want to save your tracked measurements?": "测量不能跨多个检查。是否保存已跟踪的测量数据？",
+  "Do you want to continue tracking measurements for this study?": "是否继续跟踪此检查的测量数据？",
+  "Do you want to open this Segmentation?": "是否打开此分割？",
+  "There are unsaved measurements. Do you want to save it?": "有未保存的测量数据。是否保存？"
 }

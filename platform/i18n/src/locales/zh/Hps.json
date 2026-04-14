@@ -7,5 +7,8 @@
   "mpr": "多平面重建",
   "3D only": "仅三维视图",
   "3D primary": "三维主视图",
-  "Axial Primary": "轴状面主视图"
+  "Axial Primary": "轴状面主视图",
+  "Compare Two Studies": "比较两项检查",
+  "Compare two studies in various layouts": "以多种布局比较两项检查",
+  "Mammography Breast Screening": "乳腺摄影筛查"
 }

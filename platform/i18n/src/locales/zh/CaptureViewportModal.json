@@ -1,6 +1,13 @@
 {
+  "Copy to Clipboard": "复制图像",
   "File name": "文件名",
   "Image size": "图片大小",
+  "Image size in pixels": "图像尺寸（像素）",
   "Include annotations": "包含注释",
-  "Include warning message": "包含警告信息"
+  "Include warning message": "包含警告信息",
+  "Width": "宽度",
+  "Height": "高度",
+  "Save Image": "保存图像",
+  "Image copied to clipboard": "图像已复制到剪贴板",
+  "Failed to copy image to clipboard": "复制图像到剪贴板失败"
 }

@@ -3,7 +3,7 @@
   "short_name": "Viewer",
   "description": "OHIF Viewer",
   "dir": "auto",
-  "lang": "en-US",
+  "lang": "zh-CN",
   "orientation": "any",
   "icons": [
     {

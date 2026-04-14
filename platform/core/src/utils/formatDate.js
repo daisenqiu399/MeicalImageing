@@ -1,4 +1,5 @@
 import moment from 'moment';
+import 'moment/locale/zh-cn';
 import i18n from 'i18next';
 
 /**
@@ -8,12 +9,12 @@ import i18n from 'i18next';
  * @param {string} format Desired date format
  * @returns {string} Formatted date
  */
-export default (date, format = i18n.t('Common:localDateFormat', 'DD-MMM-YYYY')) => {
+export default (date, format = i18n.t('Common:localDateFormat', 'YYYY-MM-DD')) => {
   if (!date) {
     return '';
   }
 
-  const locale = i18n.language || 'en';
+  const locale = i18n.language || 'zh';
   const parsed = moment(date, ['YYYYMMDD', 'YYYY.MM.DD'], true);
 
   if (!parsed.isValid()) {

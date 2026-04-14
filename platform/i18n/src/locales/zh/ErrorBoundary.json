@@ -3,5 +3,7 @@
   "Context": "上下文",
   "Error Message": "错误信息",
   "Stack": "堆栈",
-  "Something went wrong": "发生错误"
+  "Something went wrong": "发生错误",
+  "in": "位于",
+  "Stack Trace": "堆栈跟踪"
 }

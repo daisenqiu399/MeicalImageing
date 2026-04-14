@@ -50,6 +50,7 @@ function UserPreferencesModalDefault({ hide }: { hide: () => void }) {
     : resolvedHotkeyDefaults;
 
   const currentLanguage = currentLanguageFn();
+  const showLanguageSelector = availableLanguages.length > 1;
 
   const [state, setState] = useState({
     hotkeyDefinitions: initialHotkeyDefinitions,
@@ -126,31 +127,32 @@ function UserPreferencesModalDefault({ hide }: { hide: () => void }) {
   return (
     <UserPreferencesModal>
       <UserPreferencesModal.Body>
-        {/* Language Section */}
-        <div className="mb-3 flex items-center space-x-14">
-          <UserPreferencesModal.SubHeading>{t('Language')}</UserPreferencesModal.SubHeading>
-          <Select
-            defaultValue={state.languageValue}
-            onValueChange={onLanguageChangeHandler}
-          >
-            <SelectTrigger
-              className="w-60"
-              aria-label="Language"
+        {showLanguageSelector && (
+          <div className="mb-3 flex items-center space-x-14">
+            <UserPreferencesModal.SubHeading>{t('Language')}</UserPreferencesModal.SubHeading>
+            <Select
+              defaultValue={state.languageValue}
+              onValueChange={onLanguageChangeHandler}
             >
-              <SelectValue placeholder={t('Select language')} />
-            </SelectTrigger>
-            <SelectContent>
-              {availableLanguages.map(lang => (
-                <SelectItem
-                  key={lang.value}
-                  value={lang.value}
-                >
-                  {getLanguageLabel(lang.value, lang.label)}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+              <SelectTrigger
+                className="w-60"
+                aria-label="Language"
+              >
+                <SelectValue placeholder={t('Select language')} />
+              </SelectTrigger>
+              <SelectContent>
+                {availableLanguages.map(lang => (
+                  <SelectItem
+                    key={lang.value}
+                    value={lang.value}
+                  >
+                    {getLanguageLabel(lang.value, lang.label)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
 
         <UserPreferencesModal.SubHeading>{t('Hotkeys')}</UserPreferencesModal.SubHeading>
         <UserPreferencesModal.HotkeysGrid>

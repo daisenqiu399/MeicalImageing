@@ -1,1 +1,14 @@
-{}
+{
+  "emptyFilenameError": "文件名不能为空。",
+  "fileType": "文件类型",
+  "filename": "文件名",
+  "formTitle": "请指定输出图像的尺寸、文件名和所需类型。",
+  "imageHeight": "图像高度 (px)",
+  "imagePreview": "图像预览",
+  "imageWidth": "图像宽度 (px)",
+  "keepAspectRatio": "保持宽高比",
+  "loadingPreview": "正在加载图像预览...",
+  "minHeightError": "有效的最小高度为 100px。",
+  "minWidthError": "有效的最小宽度为 100px。",
+  "showAnnotations": "显示标注"
+}

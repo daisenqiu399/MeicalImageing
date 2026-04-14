@@ -1,4 +1,5 @@
 import moment from 'moment';
+import 'moment/locale/zh-cn';
 import i18n from 'i18next';
 
 /**
@@ -13,8 +14,8 @@ export function formatDICOMDate(date: string, strFormat?: string): string {
     return '';
   }
 
-  const format = strFormat ?? i18n.t('Common:localDateFormat', 'MMM D, YYYY');
-  const locale = i18n.language || 'en';
+  const format = strFormat ?? i18n.t('Common:localDateFormat', 'YYYY-MM-DD');
+  const locale = i18n.language || 'zh';
   const parsed = moment(date, ['YYYYMMDD', 'YYYY.MM.DD'], true);
 
   if (!parsed.isValid()) {

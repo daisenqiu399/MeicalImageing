@@ -22,5 +22,8 @@
   "LOAD": "加载",
   "mm": "mm",
   "NoStudyDate": "无时间",
-  "Back": "返回"
+  "Back": "返回",
+  "Foreground": "前景",
+  "SELECT A FOREGROUND": "选择前景",
+  "SELECT A SEGMENTATION": "选择分割"
 }

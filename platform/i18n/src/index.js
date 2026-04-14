@@ -35,16 +35,31 @@ function addLocales(newLocales) {
  * in-context editor using environment variables.
  * (DO NOT commit the API key)
  */
+const envUseLocize = !!process.env.USE_LOCIZE;
+const envApiKeyAvailable = !!process.env.LOCIZE_API_KEY;
+const DEFAULT_LANGUAGE = 'zh';
+const SUPPORTED_LANGUAGES = [DEFAULT_LANGUAGE];
+
 const locizeOptions = {
   projectId: process.env.LOCIZE_PROJECTID,
   apiKey: process.env.LOCIZE_API_KEY,
-  referenceLng: 'en-US',
-  fallbacklng: 'en-US',
+  referenceLng: DEFAULT_LANGUAGE,
+  fallbacklng: DEFAULT_LANGUAGE,
 };
 
-const envUseLocize = !!process.env.USE_LOCIZE;
-const envApiKeyAvailable = !!process.env.LOCIZE_API_KEY;
-const DEFAULT_LANGUAGE = 'en-US';
+function normalizeLanguage(language) {
+  if (!language) {
+    return DEFAULT_LANGUAGE;
+  }
+
+  const normalizedLanguage = language.toLowerCase();
+
+  if (normalizedLanguage === 'zh' || normalizedLanguage === 'zh-cn') {
+    return DEFAULT_LANGUAGE;
+  }
+
+  return DEFAULT_LANGUAGE;
+}
 
 function initI18n(
   detection = detectionOptions,
@@ -77,7 +92,12 @@ function initI18n(
       // init i18next
       // for all options read: https://www.i18next.com/overview/configuration-options
       .init({
+        lng: DEFAULT_LANGUAGE,
         fallbackLng: DEFAULT_LANGUAGE,
+        supportedLngs: SUPPORTED_LANGUAGES,
+        nonExplicitSupportedLngs: true,
+        load: 'languageOnly',
+        cleanCode: true,
         saveMissing: apiKeyAvailable,
         debug: debugMode,
         keySeparator: false,
@@ -113,7 +133,12 @@ function initI18n(
       // init i18next
       // for all options read: https://www.i18next.com/overview/configuration-options
       .init({
+        lng: DEFAULT_LANGUAGE,
         fallbackLng: DEFAULT_LANGUAGE,
+        supportedLngs: SUPPORTED_LANGUAGES,
+        nonExplicitSupportedLngs: true,
+        load: 'languageOnly',
+        cleanCode: true,
         resources: locales,
         debug: debugMode,
         keySeparator: false,
@@ -144,8 +169,8 @@ i18n.defaultLanguage = {
   value: DEFAULT_LANGUAGE,
 };
 i18n.currentLanguage = () => ({
-  label: getLanguageLabel(i18n.language),
-  value: i18n.language,
+  label: getLanguageLabel(normalizeLanguage(i18n.language)),
+  value: normalizeLanguage(i18n.language),
 });
 
 export default i18n;

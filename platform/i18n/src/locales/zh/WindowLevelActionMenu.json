@@ -6,5 +6,14 @@
   "Preview in viewport": "在视图中预览",
   "Grayscale": "灰度",
   "Back to Display Options": "返回显示选项",
-  "Modality Presets": "模态预设"
+  "Modality Presets": "模态预设",
+  "Rendering Presets": "渲染预设",
+  "Search all": "搜索全部",
+  "Quality": "质量",
+  "Lighting": "光照",
+  "Shade": "阴影",
+  "Ambient": "环境光",
+  "Diffuse": "漫反射",
+  "Specular": "高光",
+  "Shift": "偏移"
 }
