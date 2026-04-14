@@ -25,6 +25,7 @@ const PROXY_DOMAIN = process.env.PROXY_DOMAIN;
 const PROXY_PATH_REWRITE_FROM = process.env.PROXY_PATH_REWRITE_FROM;
 const PROXY_PATH_REWRITE_TO = process.env.PROXY_PATH_REWRITE_TO;
 const IS_COVERAGE = process.env.COVERAGE === 'true';
+const AI_PROXY_PORT = Number(process.env.AI_PROXY_PORT || process.env.PROXY_PORT || 3001);
 
 const OHIF_PORT = Number(process.env.OHIF_PORT || 3000);
 const ENTRY_TARGET = process.env.ENTRY_TARGET || `${SRC_DIR}/index.js`;
@@ -56,6 +57,17 @@ module.exports = (env, argv) => {
   const baseConfig = webpackBase(env, argv, { SRC_DIR, DIST_DIR });
   const isProdBuild = process.env.NODE_ENV === 'production';
   const hasProxy = PROXY_TARGET && PROXY_DOMAIN;
+  const defaultProxy = [
+    {
+      context: ['/api/ai'],
+      target: `http://localhost:${AI_PROXY_PORT}`,
+      changeOrigin: true,
+    },
+    {
+      context: ['/dicomweb'],
+      target: 'http://localhost:5000',
+    },
+  ];
 
   const mergedConfig = merge(baseConfig, {
     entry: {
@@ -149,11 +161,7 @@ module.exports = (env, argv) => {
       client: {
         overlay: { errors: true, warnings: false },
       },
-      proxy: [
-        {
-          '/dicomweb': 'http://localhost:5000',
-        },
-      ],
+      proxy: defaultProxy,
       static: [
         {
           directory: '../../testdata',
@@ -179,8 +187,8 @@ module.exports = (env, argv) => {
   });
 
   if (hasProxy) {
-    mergedConfig.devServer.proxy = mergedConfig.devServer.proxy || {};
     mergedConfig.devServer.proxy = [
+      defaultProxy[0],
       {
         context: [PROXY_PATH_REWRITE_FROM || '/dicomweb'],
         target: PROXY_DOMAIN,

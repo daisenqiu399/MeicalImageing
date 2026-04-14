@@ -9,7 +9,9 @@ End-to-end coverage lives in `tests/`: Playwright specs are in `tests/*.spec.ts`
 ## Build, Test, and Development Commands
 
 - `yarn install --frozen-lockfile`: install dependencies with the committed lockfile.
-- `yarn dev`: start the viewer and local AI proxy together.
+- `yarn dev`: start the viewer only.
+- `yarn dev:ai`: start the local AI proxy only.
+- `yarn dev:full`: start the viewer and local AI proxy together.
 - `yarn dev:fast`: start the faster Rsbuild-based dev flow.
 - `yarn build`: build production viewer bundles across workspaces.
 - `yarn test:unit`: run Jest multi-project unit tests with coverage.

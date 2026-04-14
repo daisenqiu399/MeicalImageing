@@ -22,6 +22,7 @@ const PROXY_TARGET = process.env.PROXY_TARGET;
 const PROXY_DOMAIN = process.env.PROXY_DOMAIN;
 const PROXY_PATH_REWRITE_FROM = process.env.PROXY_PATH_REWRITE_FROM;
 const PROXY_PATH_REWRITE_TO = process.env.PROXY_PATH_REWRITE_TO;
+const AI_PROXY_PORT = Number(process.env.AI_PROXY_PORT || process.env.PROXY_PORT || 3001);
 
 // Add port constant
 const OHIF_PORT = Number(process.env.OHIF_PORT || 3000);
@@ -94,6 +95,7 @@ export default defineConfig({
       '@hooks': path.resolve(__dirname, './platform/app/src/hooks'),
       '@routes': path.resolve(__dirname, './platform/app/src/routes'),
       '@state': path.resolve(__dirname, './platform/app/src/state'),
+      '@ohif/extension-ai-assistant': path.resolve(__dirname, './extensions/ai-assistant/src'),
     },
   },
   output: {
@@ -133,6 +135,9 @@ export default defineConfig({
     proxy: {
       '/dicomweb': {
         target: 'http://localhost:5000',
+      },
+      '/api/ai': {
+        target: `http://localhost:${AI_PROXY_PORT}`,
       },
       // Add conditional proxy based on env vars
       ...(PROXY_TARGET && PROXY_DOMAIN

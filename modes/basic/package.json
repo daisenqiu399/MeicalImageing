@@ -26,6 +26,7 @@
     "@ohif/extension-cornerstone-dicom-rt": "3.13.0-beta.33",
     "@ohif/extension-cornerstone-dicom-seg": "3.13.0-beta.33",
     "@ohif/extension-cornerstone-dicom-sr": "3.13.0-beta.33",
+    "@ohif/extension-ai-assistant": "3.13.0-beta.33",
     "@ohif/extension-default": "3.13.0-beta.33",
     "@ohif/extension-dicom-pdf": "3.13.0-beta.33",
     "@ohif/extension-dicom-video": "3.13.0-beta.33"

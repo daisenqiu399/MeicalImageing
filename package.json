@@ -35,6 +35,8 @@
     "build:package-all": "lerna run build:package --stream --concurrency 4",
     "build:package-all-1": "lerna run build:package-1 --stream --concurrency 4",
     "dev:fast": "cd platform/app && yarn run dev:fast",
+    "dev:ai": "node ./server/ai-proxy.js",
+    "dev:full": "node ./.scripts/dev-full.mjs",
     "show:config": "echo Config is $APP_CONFIG on $PUBLIC_URL",
     "dev": "lerna run dev:viewer --stream",
     "dev:no:cache": "lerna run dev:no:cache --stream",

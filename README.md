@@ -179,6 +179,8 @@ also supports a number of commands that can be found in their respective
 | ---------------------------- | ------------------------------------------------------------- |
 | **Develop**                  |                                                               |
 | `dev`              | Default development experience for Viewer                     |
+| `dev:ai`           | Start the local AI proxy for report drafting                  |
+| `dev:full`         | Start the viewer and local AI proxy together                  |
 | `dev:fast`             | Our experimental fast dev mode that uses rsbuild instead of webpack                     |
 | `test:unit`                  | Jest multi-project test runner; overall coverage              |
 | **Deploy**                   |                                                               |

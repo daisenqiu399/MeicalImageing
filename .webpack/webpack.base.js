@@ -201,6 +201,7 @@ module.exports = (env, argv, { SRC_DIR, ENTRY }) => {
         '@hooks': path.resolve(__dirname, '../platform/app/src/hooks'),
         '@routes': path.resolve(__dirname, '../platform/app/src/routes'),
         '@state': path.resolve(__dirname, '../platform/app/src/state'),
+        '@ohif/extension-ai-assistant': path.resolve(__dirname, '../extensions/ai-assistant/src'),
       },
       // Which directories to search when resolving modules
       modules: [
