@@ -12,18 +12,15 @@ const { structuredCloneWithFunctions } = utils;
  * Define non-imaging modalities.
  * This can be used to exclude modes which have only these modalities,
  * or it can be used to not display thumbnails for some of these.
- * This list used to include SM, for whole slide imaging, but this is now supported
- * by cornerstone.  Others of these may get added.
+ * Others of these may get added.
  */
-export const NON_IMAGE_MODALITIES = ['SEG', 'RTSTRUCT', 'RTPLAN', 'PR', 'SR'];
+export const NON_IMAGE_MODALITIES = ['SEG', 'RTSTRUCT', 'RTPLAN', 'PR', 'SR', 'SM'];
 
 export const ohif = {
   layout: '@ohif/extension-default.layoutTemplateModule.viewerLayout',
   sopClassHandler: '@ohif/extension-default.sopClassHandlerModule.stack',
   thumbnailList: '@ohif/extension-default.panelModule.seriesList',
   hangingProtocol: '@ohif/extension-default.hangingProtocolModule.default',
-  wsiSopClassHandler:
-    '@ohif/extension-cornerstone.sopClassHandlerModule.DicomMicroscopySopClassHandler',
 };
 
 export const cornerstone = {
@@ -61,11 +58,6 @@ export const dicomSeg = {
   viewport: '@ohif/extension-cornerstone-dicom-seg.viewportModule.dicom-seg',
 };
 
-export const dicomPmap = {
-  sopClassHandler: '@ohif/extension-cornerstone-dicom-pmap.sopClassHandlerModule.dicom-pmap',
-  viewport: '@ohif/extension-cornerstone-dicom-pmap.viewportModule.dicom-pmap',
-};
-
 export const dicomRT = {
   viewport: '@ohif/extension-cornerstone-dicom-rt.viewportModule.dicom-rt',
   sopClassHandler: '@ohif/extension-cornerstone-dicom-rt.sopClassHandlerModule.dicom-rt',
@@ -80,9 +72,9 @@ export const extensionDependencies = {
   // Can derive the versions at least process.env.from npm_package_version
   '@ohif/extension-default': '^3.0.0',
   '@ohif/extension-cornerstone': '^3.0.0',
+  '@ohif/extension-measurement-tracking': '^3.0.0',
   '@ohif/extension-cornerstone-dicom-sr': '^3.0.0',
   '@ohif/extension-cornerstone-dicom-seg': '^3.0.0',
-  '@ohif/extension-cornerstone-dicom-pmap': '^3.0.0',
   '@ohif/extension-cornerstone-dicom-rt': '^3.0.0',
   '@ohif/extension-dicom-pdf': '^3.0.1',
   '@ohif/extension-dicom-video': '^3.0.1',
@@ -92,9 +84,7 @@ export const sopClassHandlers = [
   dicomvideo.sopClassHandler,
   dicomecg.sopClassHandler,
   dicomSeg.sopClassHandler,
-  dicomPmap.sopClassHandler,
   ohif.sopClassHandler,
-  ohif.wsiSopClassHandler,
   dicompdf.sopClassHandler,
   dicomsr.sopClassHandler3D,
   dicomsr.sopClassHandler,
@@ -286,9 +276,7 @@ export const basicLayout = {
   props: {
     leftPanels: [ohif.thumbnailList],
     leftPanelResizable: true,
-    rightPanels: [
-      '@ohif/extension-default.panelModule.chatPanel',
-    ],
+    rightPanels: [],
     rightPanelClosed: false,
     rightPanelResizable: true,
     viewports: [
@@ -297,7 +285,6 @@ export const basicLayout = {
         displaySetsToDisplay: [
           ohif.sopClassHandler,
           dicomvideo.sopClassHandler,
-          ohif.wsiSopClassHandler,
           dicomecg.sopClassHandler,
         ],
       },
@@ -312,10 +299,6 @@ export const basicLayout = {
       {
         namespace: dicomSeg.viewport,
         displaySetsToDisplay: [dicomSeg.sopClassHandler],
-      },
-      {
-        namespace: dicomPmap.viewport,
-        displaySetsToDisplay: [dicomPmap.sopClassHandler],
       },
       {
         namespace: dicomRT.viewport,

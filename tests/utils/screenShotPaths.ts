@@ -184,9 +184,6 @@ const screenShotPaths = {
     crosshairsResetToolbar: 'crosshairsResetToolbar.png',
     crosshairsNewDisplayset: 'crosshairsNewDisplayset.png',
   },
-  tmtvRendering: {
-    tmtvDisplayedCorrectly: 'tmtvDisplayedCorrectly.png',
-  },
   jumpToMeasurementMPR: {
     initialDraw: 'jumpToMeasurementMPR-initialDraw.png',
     scrollAway: 'jumpToMeasurementMPR-scrollAway.png',

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import classnames from 'classnames';
 import { useNavigate } from 'react-router-dom';
-import { DicomMetadataStore, MODULE_TYPES, useSystem } from '@ohif/core';
+import { MODULE_TYPES, useSystem } from '@ohif/core';
 
 import Dropzone from 'react-dropzone';
 import filesToStudies from './filesToStudies';
@@ -75,32 +75,10 @@ function Local({ modePath }: LocalProps) {
   const firstLocalDataSource = localDataSources[0];
   const dataSource = firstLocalDataSource.createDataSource({});
 
-  const microscopyExtensionLoaded = extensionManager.registeredExtensionIds.includes(
-    '@ohif/extension-dicom-microscopy'
-  );
-
   const onDrop = async acceptedFiles => {
     const studies = await filesToStudies(acceptedFiles, dataSource);
 
     const query = new URLSearchParams();
-
-    if (microscopyExtensionLoaded) {
-      // TODO: for microscopy, we are forcing microscopy mode, which is not ideal.
-      //     we should make the local drag and drop navigate to the worklist and
-      //     there user can select microscopy mode
-      const smStudies = studies.filter(id => {
-        const study = DicomMetadataStore.getStudy(id);
-        return (
-          study.series.findIndex(s => s.Modality === 'SM' || s.instances[0].Modality === 'SM') >= 0
-        );
-      });
-
-      if (smStudies.length > 0) {
-        smStudies.forEach(id => query.append('StudyInstanceUIDs', id));
-
-        modePath = 'microscopy';
-      }
-    }
 
     // Todo: navigate to work list and let user select a mode
     studies.forEach(id => query.append('StudyInstanceUIDs', id));
@@ -139,7 +117,7 @@ function Local({ modePath }: LocalProps) {
               <div className="space-y-2 py-6 text-center">
                 {dropInitiated ? (
                   <div className="flex flex-col items-center justify-center pt-12">
-                    <LoadingIndicatorProgress className={'h-full w-full bg-background'} />
+                    <LoadingIndicatorProgress className={'bg-background h-full w-full'} />
                   </div>
                 ) : (
                   <div className="space-y-2">

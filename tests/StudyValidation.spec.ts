@@ -4,7 +4,7 @@ test.describe('Study Validation', () => {
   const invalidStudyUID = '9.9.9.9.9.9.9.9.9.9.9.9.9.9.9.9.9.9.9.9.9.9.9.9';
   const validStudyUID = '1.3.6.1.4.1.25403.345050719074.3824.20170125095438.5';
 
-  const modes = ['viewer', 'segmentation', 'microscopy', 'tmtv'];
+  const modes = ['viewer', 'segmentation'];
 
   // Test 1: Single invalid study
   modes.forEach(mode => {

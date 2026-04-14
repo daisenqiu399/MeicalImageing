@@ -99,10 +99,7 @@ function modeFactory({ modeConfiguration }) {
       ]);
 
       toolbarService.updateSection('LabelMapTools', [
-        'LabelmapSlicePropagation',
         'BrushTools',
-        'MarkerLabelmap',
-        'RegionSegmentPlus',
         'Shapes',
         'LabelMapEditWithContour',
       ]);
@@ -204,9 +201,7 @@ function modeFactory({ modeConfiguration }) {
             props: {
               leftPanels: [ohif.thumbnailList],
               leftPanelResizable: true,
-              rightPanels: [
-                '@ohif/extension-default.panelModule.chatPanel',
-              ],
+              rightPanels: [],
               rightPanelResizable: true,
               // leftPanelClosed: true,
               viewports: [

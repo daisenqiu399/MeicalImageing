@@ -10,8 +10,6 @@ import {
 import { simulateNormalizedDragOnElement } from './simulateDragOnElement';
 import { reduce3DViewportSize } from './reduce3DviewportSize';
 import { getMousePosition, initializeMousePositionTracker } from './mouseUtils';
-import { getSUV } from './getSUV';
-import { getTMTVModalityUnit } from './getTMTVModalityUnit';
 import { clearAllAnnotations } from './clearAllAnnotations';
 import { scrollVolumeViewport } from './scrollVolumeViewport';
 import { attemptAction } from './attemptAction';
@@ -33,8 +31,6 @@ export {
   reduce3DViewportSize,
   getMousePosition,
   initializeMousePositionTracker,
-  getSUV,
-  getTMTVModalityUnit,
   clearAllAnnotations,
   scrollVolumeViewport,
   attemptAction,

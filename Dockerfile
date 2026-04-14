@@ -92,9 +92,6 @@ USER nginx
 COPY --chown=nginx:nginx .docker/Viewer-v3.x /usr/src
 RUN chmod 777 /usr/src/entrypoint.sh
 COPY --from=builder /usr/src/app/platform/app/dist /usr/share/nginx/html${PUBLIC_URL}
-# Copy paths that are renamed/redirected generally
-# Microscopy libraries depend on root level include, so must be copied
-COPY --from=builder /usr/src/app/platform/app/dist/dicom-microscopy-viewer /usr/share/nginx/html/dicom-microscopy-viewer
 
 # In entrypoint.sh, app-config.js might be overwritten, so chmod it to be writeable.
 # The nginx user cannot chmod it, so change to root.
