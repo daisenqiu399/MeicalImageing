@@ -40,6 +40,8 @@
     "webpack-merge": "5.10.0"
   },
   "dependencies": {
-    "@babel/runtime": "7.28.2"
+    "@babel/runtime": "7.28.2",
+    "html2canvas": "1.4.1",
+    "jspdf": "4.2.1"
   }
 }

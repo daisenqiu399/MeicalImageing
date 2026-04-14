@@ -2,6 +2,7 @@
 node_modules
 .cursor/
 .codex-logs/
+.tmp-logs/
 .nyc_output/
 # Output
 build

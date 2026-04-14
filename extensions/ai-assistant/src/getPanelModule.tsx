@@ -7,7 +7,7 @@ function getPanelModule() {
       name: 'aiAssistant',
       iconName: 'tab-linear',
       iconLabel: 'AI',
-      label: 'AI Draft',
+      label: 'AI 诊断',
       component: props => <AIAssistantPanel {...props} />,
     },
   ];

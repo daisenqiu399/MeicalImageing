@@ -632,6 +632,17 @@ const toolbarButtons: Button[] = [
     },
   },
   {
+    id: 'AIDiagnosis',
+    uiType: 'ohif.toolButton',
+    props: {
+      icon: 'tab-linear',
+      label: 'AI Dx',
+      tooltip: 'Open AI diagnosis panel',
+      commands: 'openAiAssistantPanel',
+      evaluate: 'evaluate.action',
+    },
+  },
+  {
     id: 'Layout',
     uiType: 'ohif.layoutSelector',
     props: {
