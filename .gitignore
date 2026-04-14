@@ -1,6 +1,7 @@
 # Packages
 node_modules
 .cursor/
+.codex-logs/
 .nyc_output/
 # Output
 build
