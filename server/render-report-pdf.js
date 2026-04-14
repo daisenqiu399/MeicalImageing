@@ -265,9 +265,7 @@ function buildReportBlocks(report) {
 function buildContinuationHeader(documentMeta = {}) {
   return `
     <header class="continuation-header">
-      <div class="continuation-title">${escapeHtml(
-        displayValue(documentMeta.institutionName, '医院')
-      )}</div>
+      <div class="continuation-title">生物与工程学院(健康医药现代产业学院)</div>
       <div class="continuation-subtitle">${REPORT_CONTINUATION_TITLE}</div>
       <div class="continuation-meta-line">
         检查名称：${escapeHtml(displayValue(documentMeta.studyDescription, '未命名检查'))}
@@ -282,7 +280,7 @@ function buildCompactFooter({ generatedAt, requestId, model }) {
       <div class="footer-meta">
         <span>生成时间：${escapeHtml(displayValue(formatDisplayDateTime(generatedAt), '未记录'))}</span>
         <span>请求编号：${escapeHtml(displayValue(requestId, '未提供'))}</span>
-        <span>模型：${escapeHtml(displayValue(model, 'Unknown'))}</span>
+        <span>模型：ChatGPT-3.5-turbo</span>
       </div>
       <div class="footer-disclaimer">AI辅助草稿，仅供医生复核，不作为最终诊断结论。</div>
     </footer>
@@ -398,7 +396,7 @@ function buildReportHtml({
 
           .report-header {
             display: grid;
-            grid-template-columns: 64px 1fr;
+            grid-template-columns: 80px 1fr;
             gap: 14px;
             align-items: center;
             border-bottom: 1px solid #9ca3af;
@@ -406,8 +404,8 @@ function buildReportHtml({
           }
 
           .hospital-mark {
-            width: 54px;
-            height: 54px;
+            width: 70px;
+            height: 70px;
           }
 
           .hospital-logo {
@@ -648,9 +646,7 @@ function buildReportHtml({
               <header class="report-header">
                 ${buildReportLogo()}
                 <div class="report-header-text">
-                  <div class="hospital-name">${escapeHtml(
-                    displayValue(normalizedDocumentMeta.institutionName, '医院')
-                  )}</div>
+                  <div class="hospital-name">生物与工程学院(健康医药现代产业学院)</div>
                   <div class="report-name">${REPORT_TITLE}</div>
                   <div class="report-subtitle">
                     检查名称：${escapeHtml(

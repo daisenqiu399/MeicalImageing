@@ -18,8 +18,8 @@ const MAX_CAPTURE_COUNT = 4;
 const DEFAULT_CHAT_ENDPOINT = '/api/ai/chat';
 const DEFAULT_EXPORT_ENDPOINT = '/api/ai/report-export';
 const DEFAULT_DRAFT_PROMPT =
-  '请基于当前关键图、测量结果和脱敏上下文生成中文初诊报告，并说明主要影像依据与不确定性。';
 
+'请基于当前影像图、测量结果和上下文生成中文初诊报告，并说明主要影像依据与不确定性。';
 export type AIAssistantChatMessage = {
   id: string;
   role: 'user' | 'assistant';
